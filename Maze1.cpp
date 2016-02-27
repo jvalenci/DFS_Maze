@@ -32,7 +32,7 @@ void Maze1::find_exit()
 	current = start;
 	current = current.Neighbor(d);
 
-	for (int i = 0; i < size * size; ++i) {
+	for (; ; ) {
 
 		if (current == exitpos) {
 			return;
