@@ -38,40 +38,6 @@ void Maze1::find_exit()
 			return;
 		}
 
-		if (validPosition(current) && M[current.row][current.col] == OPEN) {
-			
-			d = DOWN;
-			path.push(current);
-			M[current.row][current.col] = VISITED;
-			
-			while (!validPosition(current.Neighbor(d)) && M[current.Neighbor(d).row][current.Neighbor(d).col] != VISITED) {
-				d = next_direction(d);
-			}
-
-			current = current.Neighbor(d);
-		}
-		else if (validPosition(current) && M[current.row][current.col] == WALL) {
-			
-			current = path.top();
-			
-			while (!validPosition(current.Neighbor(d)) && M[current.Neighbor(d).row][current.Neighbor(d).col] != VISITED) {
-				d = next_direction(d);
-				current = current.Neighbor(d);
-			}
-		}
-		else if (validPosition(current) && M[current.row][current.col] == VISITED) {
-
-			for (direction i = DOWN; i != NONE; i = next_direction(i)) {
-				if (M[current.Neighbor(i).row][current.Neighbor(i).col] == OPEN) {
-					current = current.Neighbor(i);
-					break;
-				}
-			}
-		}
-		else {
-			current = path.top();
-			path.pop();
-		}		
 	}		
 }
 
