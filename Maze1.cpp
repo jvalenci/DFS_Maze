@@ -38,27 +38,70 @@ void Maze1::find_exit()
 	{
 		return;
 	}
-	//move current down 
+
+	//Validate your initial move 
 	current = current.Neighbor(d);
-
-	//check to see if current is valid and that the state is open
-	while (validPosition(current) && M[current.row][current.col] == OPEN ) {
-		//check if current is at exit
-		if (current == exitpos) {
-			return;
+	if (!validPosition(current) || M[current.row][current.col] == WALL) {
+		current = current.Neighbor(UP);
+		d = next_direction(d);
+		current = current.Neighbor(d);
+		if (!validPosition(current) || M[current.row][current.col] == WALL) {
+			current = current.Neighbor(RIGHT);
+			d = next_direction(d);
+			current = current.Neighbor(d);
+			if (!validPosition(current) || M[current.row][current.col] == WALL) {
+				current = current.Neighbor(DOWN);
+				d = next_direction(d);
+				current = current.Neighbor(d);
+				if (!validPosition(current) || M[current.row][current.col] == WALL) {
+					path.pop();
+					return;
+				}
+			}
 		}
-
-		//push onto path
-		path.push(current);
-
-		//mark visited
-		M[current.row][current.col] = VISITED;
-
-		//set current to next direction
-		current = current.Neighbor(d = next_direction(d));
 	}
-	
-	
+
+	//check to see if current is valid
+	while (validPosition(current) ) {
+		
+		switch (M[current.row][current.col])
+		{
+
+		case OPEN:
+			//check if current is at exit
+			if (current == exitpos) {
+				path.push(current);
+				return;
+			}
+
+		/*	switch (d) {
+
+			case DOWN:
+				break;
+			case LEFT:
+				break;
+			case UP:
+				break;
+			case RIGHT:
+				break;
+			default:
+			}*/
+
+
+			M[current.row][current.col] = VISITED;
+			path.push(current);
+
+			//set current to next down position 
+			current = current.Neighbor(d);
+
+			break;
+
+		default:
+			current = path.top();
+			path.pop();
+
+		}
+	}	
 }
 
 
