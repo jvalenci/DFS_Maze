@@ -39,36 +39,37 @@ void Maze1::find_exit()
 		}
 
 		if (validPosition(current) && M[current.row][current.col] == OPEN) {
-			//d = DOWN;
+			d = DOWN;
 			path.push(current);
 			M[current.row][current.col] = VISITED;
 			while (!validPosition(current.Neighbor(d))) {
 				d = next_direction(d);
 			}
 			current = current.Neighbor(d);
-			//continue;
 		}
 		else if (validPosition(current) && M[current.row][current.col] == WALL) {
 			current = path.top();
-			//d = next_direction(d);
+			d = next_direction(d);
 			while (!validPosition(current.Neighbor(d))) {
 				d = next_direction(d);
 			}
 			current = current.Neighbor(d);
-			//continue;
 		}
 		else if (validPosition(current) && M[current.row][current.col] == VISITED) {
 			
-			/*while (M[current.row][current.col] == VISITED) {
-				if (M[current.Neighbor(d).row][current.Neighbor(d).col] == OPEN) {
-					current = current.Neighbor(d);
+			//while (M[current.row][current.col] == VISITED) {
+				for (direction i = DOWN; i != NONE; i = next_direction(i)) {
+					if (M[current.Neighbor(i).row][current.Neighbor(i).col] == OPEN) {
+						current = current.Neighbor(i);
+						break;
+					}
 				}
-				current = path.top();
-				path.pop();
-				d = next_direction(d);
-			}*/
-			current = path.top();
-			path.pop();
+				if (M[current.row][current.col] == VISITED) {
+					current = path.top();
+					path.pop();
+					d = next_direction(d);
+				}
+			//}
 			
 		}
 	}		
