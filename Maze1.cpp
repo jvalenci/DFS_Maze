@@ -49,11 +49,11 @@ void Maze1::find_exit()
 		}
 		else if (validPosition(current) && M[current.row][current.col] == WALL) {
 			current = path.top();
-			d = next_direction(d);
-			while (!validPosition(current.Neighbor(d))) {
+			//d = next_direction(d);
+			while (!validPosition(current.Neighbor(d)) && M[current.Neighbor(d).row][current.Neighbor(d).col] != VISITED) {
 				d = next_direction(d);
+				current = current.Neighbor(d);
 			}
-			current = current.Neighbor(d);
 		}
 		else if (validPosition(current) && M[current.row][current.col] == VISITED) {
 			
