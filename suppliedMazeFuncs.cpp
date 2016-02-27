@@ -18,7 +18,7 @@ Maze1::Maze1(int n): size(n)
   }
 }
 
-void Maze1::display() const
+void Maze1::display(ostream & out) const
 {
   state s;
   for(int i = 0; i < size+2; ++i) {
@@ -49,7 +49,7 @@ bool Maze1::validPosition(Position P)
   return b || P == NULLPOS;
 }
 
-void Maze1::initialize()
+void Maze1::initialize(istream &in )
 {
   
   cout << "The coordinates of positions in the maze must be in the range\n";
@@ -97,18 +97,18 @@ void Maze1::initialize()
 }
 
 
-void Maze1::reverseStackPrint()
+void Maze1::reverseStackPrint(ostream & out)
 // Print the contents of the path stack from bottom to top recursively
 {
   if(path.empty())
     return;
   Position last = path.top();
   path.pop();
-  reverseStackPrint();
+  reverseStackPrint(out);
   cout << last;
 }
 
-void Maze1::printExitPath()
+void Maze1::printExitPath(ostream & out)
 // If the path stack is empty, output "No way out\; otherwise, output
 // "Exit path:" then call reverseStackPrint to print the exit path
 // In any case, at the last, insert endl into the output stream.
@@ -119,7 +119,7 @@ void Maze1::printExitPath()
     cout << "No way out" << endl;
   else {
     cout << "Path to exit:\n\n";
-    reverseStackPrint();
+    reverseStackPrint(out);
     cout << endl;
   }  
 }

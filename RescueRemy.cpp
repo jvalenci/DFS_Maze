@@ -3,6 +3,7 @@
 
 int main()
 {
+
    cout << "Welcome to the Rat in a Maze Program\n\n";
    cout << "You will prompted for the maze size, the start position,\n";
    cout << "the exit position, and the open positions of the maze.";
