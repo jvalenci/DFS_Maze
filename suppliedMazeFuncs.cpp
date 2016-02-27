@@ -1,7 +1,8 @@
 #include "Maze1.h"
 #include <iostream>
 #include <cstdlib>
-
+#include <conio.h>
+#include <dos.h>
 using namespace std;
 
 Maze1::Maze1(int n): size(n) 
@@ -23,6 +24,7 @@ void Maze1::display(ostream & out) const
   state s;
   for(int i = 0; i < size+2; ++i) {
     for(int j = 0; j < size+2; ++j) {
+		
       s = M[i][j];
       assert(s == OPEN || s == WALL);
       if (s == WALL)
