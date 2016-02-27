@@ -1,9 +1,10 @@
 #include "Maze1.h"
 #include <iostream>
 #include <cassert>
-#include <conio.h>
 
 using namespace std;
+
+void depthSearch(Position pos);
 
 Maze1::~Maze1()
 {
@@ -19,102 +20,63 @@ void Maze1::find_exit()
 {
 	// FILL IN THE CODE FOR THIS METHOD
 	Position nbr, current;
-	direction d;
+	direction d = DOWN;
 
-	//copy the first position
-	current = start;
+	M[start.row][start.col] = VISITED;
+	path.push(start);
 
-	//set starting position as visited
-	M[current.row][current.col] = VISITED;
-
-	//start the stack with your starting position
-	path.push(current);
-
-
-	//check first scenario where the start and end are in the same square
-	if (start == exitpos)
-	{
+	if (start == exitpos) {
 		return;
 	}
 
+	current = start;
+	current = current.Neighbor(d);
 
-	//check to see if current = exitpos
-	while (!(current == exitpos) ) {
+	for (int i = 0; i < size * size; ++i) {
 
-		//default search direction.
-		d = DOWN;
-
-		//Validate your initial move 
-		current = current.Neighbor(d);
-
-		if (!validPosition(current) || M[current.row][current.col] == WALL) {
-			current = current.Neighbor(UP);
-			d = next_direction(d);
-			current = current.Neighbor(d);
-			if (!validPosition(current) || M[current.row][current.col] == WALL) {
-				current = current.Neighbor(RIGHT);
-				d = next_direction(d);
-				current = current.Neighbor(d);
-				if (!validPosition(current) || M[current.row][current.col] == WALL) {
-					current = current.Neighbor(DOWN);
-					d = next_direction(d);
-					current = current.Neighbor(d);
-					if (!validPosition(current) || M[current.row][current.col] == WALL) {
-						current = path.top();
-						path.pop();
-					}
-				}
-			}
+		if (current == exitpos) {
+			return;
 		}
 
-		//d = DOWN;
-
-		switch (M[current.row][current.col])
-		{
-
-		case OPEN:
-			//check if current is at exit
-			if (current == exitpos) {
-				path.push(current);
-				return;
-			}
-
-			switch (d)
-			{
-
-			case DOWN:
-				current = current.Neighbor(DOWN);
-				break;
-			case LEFT:
-				current = current.Neighbor(LEFT);
-				break;
-			case UP:
-				current = current.Neighbor(UP);
-				break;
-			case RIGHT:
-				current = current.Neighbor(RIGHT);
-				break;
-			default:
-				break;
-			}
-
-
-			M[current.row][current.col] = VISITED;
+		if (validPosition(current) && M[current.row][current.col] == OPEN) {
+			//d = DOWN;
 			path.push(current);
-
-			////set current to next down position 
-			//current = current.Neighbor(d);
-
-			break;
-
-		default:
+			M[current.row][current.col] = VISITED;
+			while (!validPosition(current.Neighbor(d))) {
+				d = next_direction(d);
+			}
+			current = current.Neighbor(d);
+			//continue;
+		}
+		else if (validPosition(current) && M[current.row][current.col] == WALL) {
+			current = path.top();
+			//d = next_direction(d);
+			while (!validPosition(current.Neighbor(d))) {
+				d = next_direction(d);
+			}
+			current = current.Neighbor(d);
+			//continue;
+		}
+		else if (validPosition(current) && M[current.row][current.col] == VISITED) {
+			
+			/*while (M[current.row][current.col] == VISITED) {
+				if (M[current.Neighbor(d).row][current.Neighbor(d).col] == OPEN) {
+					current = current.Neighbor(d);
+				}
+				current = path.top();
+				path.pop();
+				d = next_direction(d);
+			}*/
 			current = path.top();
 			path.pop();
-			break;
-
+			
 		}
-	}	
+	}		
 }
+
+
+
+
 
 
 
