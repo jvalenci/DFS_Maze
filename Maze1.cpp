@@ -27,11 +27,20 @@ void Maze1::find_exit()
 
 
 	while (!(current == exitpos)) {
+		nbr = path.top();
 		for (d = DOWN; d != NONE; d = next_direction(d)) {
-			switch (M[current.row][current.col]) {
+			if (d == NONE) {
+				d = DOWN;
+				continue;
+			}
+			switch (M[nbr.Neighbor(d).row][nbr.Neighbor(d).col]) {
 			case OPEN:
-				break;
+				current = nbr.Neighbor(d);
+				M[current.row][current.col] = VISITED;
+				path.push(current);
+				
 			case VISITED:
+				path.pop();
 				break;
 			case WALL:
 				break;
