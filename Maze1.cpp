@@ -38,7 +38,7 @@ void Maze1::find_exit()
 			d = DOWN;
 			M[current.row][current.col] = VISITED;
 			path.push(current);
-			while (M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || !validPosition(current.Neighbor(d))) {
+			while (M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || !validPosition(current.Neighbor(d))) {
 				d = next_direction(d);
 				if (d == NONE) {
 					d = DOWN;
