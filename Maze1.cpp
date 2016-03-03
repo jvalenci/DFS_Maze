@@ -36,24 +36,29 @@ void Maze1::find_exit()
 			switch (M[nbr.Neighbor(d).row][nbr.Neighbor(d).col]) {
 			case OPEN:
 				current = nbr.Neighbor(d);
-				M[current.row][current.col] = VISITED;
+				if (!(current == start)) {
+					M[current.row][current.col] = VISITED;
+				}
 				path.push(current);
-				
+				break;
+
 			case VISITED:
-				path.pop();
+				if (!(nbr == start)) {
+					path.pop();
+				}
 				break;
 			case WALL:
 				break;
 			}
 		}
-
+	}
 		if (path.top() == start) {
 			path.pop();
 		}
 		else {
 			path.push(current);
 		}
-	}
+	
 }
 
 
