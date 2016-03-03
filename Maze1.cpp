@@ -20,62 +20,30 @@ void Maze1::find_exit()
 	// FILL IN THE CODE FOR THIS METHOD
 	Position nbr, current;
 	direction d;
-	d = DOWN;
+
 	current = start;
 	path.push(current);
-	while (M[current.Neighbor(d).row][current.Neighbor(d).col] != OPEN || !validPosition(current.Neighbor(d))) {
-		d = next_direction(d);
-		if (d == NONE) {
-			path.pop();
-			return;
-		}
-	}
-	current = current.Neighbor(d);
+
+
 
 	while (!(current == exitpos)) {
-		switch (M[current.row][current.col]) {
-		case OPEN:
-			d = DOWN;
-			M[current.row][current.col] = VISITED;
-			path.push(current);
-			while (M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || !validPosition(current.Neighbor(d))) {
-				d = next_direction(d);
-				if (d == NONE) {
-					d = DOWN;
-				}
-			}
-			current = current.Neighbor(d);
-			break;
-		case VISITED:
-			if (path.size() > 0 && !(current == start)) {
-				current = path.top();
-				path.pop();
+		for (d = DOWN; d != NONE; d = next_direction(d)) {
+			switch (M[current.row][current.col]) {
+			case OPEN:
+				break;
+			case VISITED:
+				break;
+			case WALL:
 				break;
 			}
-			while (M[current.Neighbor(d).row][current.Neighbor(d).col] != OPEN || !validPosition(current.Neighbor(d))) {
-				d = next_direction(d);
-				if (d == NONE) {
-					d = DOWN;
-				}
-			}
-			current = current.Neighbor(d);
-			break;
-		case WALL:
-			while (M[current.Neighbor(d).row][current.Neighbor(d).col] == WALL || !validPosition(current.Neighbor(d))) {
-				d = next_direction(d);
-				if (d == NONE) {
-					d = DOWN;
-				}
-			}
-			current = current.Neighbor(d);
-			break;
 		}
-	}
-	if (path.top() == start) {
-		path.pop();
-	}
-	else {
-		path.push(current);
+
+		if (path.top() == start) {
+			path.pop();
+		}
+		else {
+			path.push(current);
+		}
 	}
 }
 
