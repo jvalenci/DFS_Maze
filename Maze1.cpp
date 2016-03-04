@@ -21,6 +21,7 @@ void Maze1::find_exit()
 	Position nbr, current;
 	direction d = DOWN;
 	bool flag;
+	int count = 0;
 	
 	//initi the starting position
 	current = start;
@@ -31,7 +32,8 @@ void Maze1::find_exit()
 	while (!(current == exitpos)) {
 		
 		//validate before starting switch
-		while (!validPosition(current.Neighbor(d)) /*&& M[current.Neighbor(d).row][current.Neighbor(d).col] != WALL*/) {
+		cout << "hey bro"
+		while (!validPosition(current.Neighbor(d)) || current.Neighbor(d) == NULLPOS ) {
 			if (d == NONE) {
 				d = DOWN;
 			}
@@ -46,6 +48,14 @@ void Maze1::find_exit()
 			M[current.row][current.col] = VISITED;
 			break;
 		case VISITED:
+
+			++count;
+			if (count > size * size) {
+				for (int i = 0; i < path.size(); ++i) {
+					path.pop();
+				}
+			}
+
 			flag = true;
 			nbr = path.top();
 			if (true) {
@@ -67,8 +77,12 @@ void Maze1::find_exit()
 
 		default:
 			current = path.top();
-			d = next_direction(d);
-
+			if (d == NONE) {
+				d = DOWN;
+			}
+			else {
+				d = next_direction(d);
+			}
 		}
 	}
 
