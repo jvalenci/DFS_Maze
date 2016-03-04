@@ -20,6 +20,7 @@ void Maze1::find_exit()
 	// FILL IN THE CODE FOR THIS METHOD
 	Position nbr, current;
 	direction d = DOWN;
+	bool flag;
 	
 	//initi the starting position
 	current = start;
@@ -30,7 +31,7 @@ void Maze1::find_exit()
 	while (!(current == exitpos)) {
 		
 		//validate before starting switch
-		while (!validPosition(current.Neighbor(d)) && M[current.Neighbor(d).row][current.Neighbor(d).col] != WALL) {
+		while (!validPosition(current.Neighbor(d)) /*&& M[current.Neighbor(d).row][current.Neighbor(d).col] != WALL*/) {
 			if (d == NONE) {
 				d = DOWN;
 			}
@@ -45,18 +46,30 @@ void Maze1::find_exit()
 			M[current.row][current.col] = VISITED;
 			break;
 		case VISITED:
+			flag = true;
 			nbr = path.top();
-			for (direction dir = DOWN; dir != NONE; dir = next_direction(dir)) {
-				if (M[nbr.Neighbor(dir).row][nbr.Neighbor(dir).col] == OPEN) {
-					current = nbr.Neighbor(dir);
-					break;
+			if (true) {
+				for (d = DOWN; d != NONE; d = next_direction(d)) {
+					if (M[nbr.Neighbor(d).row][nbr.Neighbor(d).col] == OPEN) {
+						current = nbr;
+						flag = false;
+						break;
+					}
 				}
 			}
-			if(path.size() > 0)
+			if (path.size() > 0 && flag) {
 				path.pop();
+				current = nbr;
+				d = DOWN;
+			}
+
 			break;
 		case WALL:
 			break;
+
+		default:
+			current = path.top();
+
 		}
 	}
 
