@@ -59,16 +59,15 @@ void Maze1::find_exit()
 			}
 			if (path.size() > 0 && flag) {
 				path.pop();
-				current = nbr;
+				current = path.top();
 				d = DOWN;
 			}
 
 			break;
-		case WALL:
-			break;
 
 		default:
 			current = path.top();
+			d = next_direction(d);
 
 		}
 	}
