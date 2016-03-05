@@ -1,14 +1,19 @@
 #include "Maze1.h"
 #include <iostream>
 #include <cassert>
-#include <conio.h>
 
 using namespace std;
 
 Maze1::~Maze1()
 {
   // FILL IN THE CODE FOR THIS METHOD
-
+	for (int i = size + 1; i > 0; --i)
+	{
+		delete[] M[i];
+		cout << "This row is deleted";
+	}
+	delete [] M;
+	cout << "entire maze gone!";
 }
 
 void Maze1::find_exit()
@@ -110,6 +115,7 @@ void Maze1::find_exit()
 		}
 	}
 }
+
 
 
 
