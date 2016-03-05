@@ -27,12 +27,19 @@ void Maze1::find_exit()
 	current = start;
 	path.push(current);
 	M[current.row][current.col] = VISITED;
-
-	
+	for (d = DOWN; d != NONE; d = next_direction(d)) {
+		if (M[current.Neighbor(d).row][current.Neighbor(d).col] != OPEN) {
+			++count;
+		}
+	}
+	if (count >= 4) {
+		path.pop();
+		return;
+	}
+	count = 0;
 	while (!(current == exitpos)) {
 		
 		//validate before starting switch
-		cout << "hey bro"
 		while (!validPosition(current.Neighbor(d)) || current.Neighbor(d) == NULLPOS ) {
 			if (d == NONE) {
 				d = DOWN;
@@ -47,10 +54,10 @@ void Maze1::find_exit()
 			path.push(current);
 			M[current.row][current.col] = VISITED;
 			break;
-		case VISITED:
 
+		case VISITED:
 			++count;
-			if (count > size * size) {
+			if (count >= size * size) {
 				for (int i = 0; i < path.size(); ++i) {
 					path.pop();
 				}
@@ -85,9 +92,6 @@ void Maze1::find_exit()
 			}
 		}
 	}
-
-	
-
 }
 
 
