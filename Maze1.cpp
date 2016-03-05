@@ -26,9 +26,13 @@ void Maze1::find_exit()
 	//initi the starting position
 	current = start;
 	path.push(current);
+	if (current == exitpos)
+	{
+		return;
+	}
 	M[current.row][current.col] = VISITED;
-	for (d = DOWN; d != NONE; d = next_direction(d)) {
-		if (M[current.Neighbor(d).row][current.Neighbor(d).col] != OPEN) {
+	for (direction dir = DOWN; dir != NONE; dir = next_direction(dir)) {
+		if (M[current.Neighbor(dir).row][current.Neighbor(dir).col] != OPEN) {
 			++count;
 		}
 	}
@@ -75,7 +79,12 @@ void Maze1::find_exit()
 				}
 			}
 			if (path.size() > 0 && flag) {
-				path.pop();
+				try {
+					path.pop();
+				}
+				catch (exception e) {
+					return;
+				}
 				current = path.top();
 				d = DOWN;
 			}
