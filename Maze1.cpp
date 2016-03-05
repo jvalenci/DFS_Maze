@@ -26,21 +26,29 @@ void Maze1::find_exit()
 	//initi the starting position
 	current = start;
 	path.push(current);
+
+	//check if user was kind to put exit on start pos
 	if (current == exitpos)
 	{
 		return;
 	}
 	M[current.row][current.col] = VISITED;
+
+	//check to make sure initi starting pos isn't blocked in
 	for (direction dir = DOWN; dir != NONE; dir = next_direction(dir)) {
 		if (M[current.Neighbor(dir).row][current.Neighbor(dir).col] != OPEN) {
 			++count;
+			continue;
 		}
+		break;
 	}
+
+	//if blocked it will return
 	if (count >= 4) {
 		path.pop();
 		return;
 	}
-	count = 0;
+	
 	while (!(current == exitpos)) {
 		
 		//validate before starting switch
@@ -53,45 +61,45 @@ void Maze1::find_exit()
 		current = current.Neighbor(d);
 		
 		switch (M[current.row][current.col]) {
+		
 		case OPEN:
+		
 			d = DOWN;
 			path.push(current);
 			M[current.row][current.col] = VISITED;
 			break;
 
 		case VISITED:
-			++count;
-			if (count >= size * size) {
-				for (int i = 0; i < path.size(); ++i) {
-					path.pop();
+			
+			//flag to rep if there is an open side on the visited position to break out of switch
+			flag = true;
+			nbr = path.top();
+			
+			//check it the already visited position has a open side
+			for (d = DOWN; d != NONE; d = next_direction(d)) {
+				if (M[nbr.Neighbor(d).row][nbr.Neighbor(d).col] == OPEN) {
+					current = nbr;
+					flag = false;
+					break;
 				}
 			}
 
-			flag = true;
-			nbr = path.top();
-			if (true) {
-				for (d = DOWN; d != NONE; d = next_direction(d)) {
-					if (M[nbr.Neighbor(d).row][nbr.Neighbor(d).col] == OPEN) {
-						current = nbr;
-						flag = false;
-						break;
-					}
-				}
-			}
 			if (path.size() > 0 && flag) {
-				try {
-					path.pop();
-				}
-				catch (exception e) {
+
+				path.pop();
+
+				//checks if there is no exit
+				if (!path.size()) {
 					return;
 				}
+
 				current = path.top();
 				d = DOWN;
 			}
-
 			break;
 
 		default:
+
 			current = path.top();
 			if (d == NONE) {
 				d = DOWN;
