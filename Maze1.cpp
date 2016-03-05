@@ -7,13 +7,14 @@ using namespace std;
 Maze1::~Maze1()
 {
   // FILL IN THE CODE FOR THIS METHOD
-	for (int i = size + 1; i > 0; --i)
+	for (int i = 0; i < size + 2; ++i)
 	{
+		//deletes each row
 		delete[] M[i];
-		cout << "This row is deleted";
 	}
-	delete [] M;
-	cout << "entire maze gone!";
+	//delete the pointer to the 2d array of states
+	delete  M;
+	
 }
 
 void Maze1::find_exit()
